@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Adm.Core.App.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Adm.Core.infra.Context;
 
 namespace Adm.Core.App
 {
@@ -34,11 +35,11 @@ namespace Adm.Core.App
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            // CONFIGURAÇÃO DBCONTEXT 
+            services.AddDbContext<DataContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("StringConnection")));
+         
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
