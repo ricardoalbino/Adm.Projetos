@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Adm.Core.infra.Context;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Adm.Core.App.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Adm.Core.infra.Context;
 
 namespace Adm.Core.App
 {
@@ -35,6 +29,12 @@ namespace Adm.Core.App
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+
+            services.AddDbContext<DataContext>(options =>
+            options.UseSqlServer(
+                Configuration.GetConnectionString("DefaultStrings")));
+            services.AddDefaultIdentity<IdentityUser>()
+                .AddEntityFrameworkStores<DataContext>();
 
             // CONFIGURAÇÃO DBCONTEXT 
             services.AddDbContext<DataContext>(options =>
