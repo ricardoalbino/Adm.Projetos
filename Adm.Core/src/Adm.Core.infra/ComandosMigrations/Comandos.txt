@@ -14,3 +14,6 @@ agora  a migration  esta pronta para  ser aplicada - existe  um snapchat  ate  a
 	->  Add-Migration Initial -Verbose  -Context DataContext
   
 
+  -  Gerar um Script  Micration
+  ->Install-Package  Microsoft.EntityFrameworkCore.SqlServer
+  -> Script Migration -Context DataContext

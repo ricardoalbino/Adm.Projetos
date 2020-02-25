@@ -13,7 +13,7 @@ namespace Adm.Core.Domain.Interfaces
         Task Remover(TEntity entity);
         Task<List<TEntity>> ObterTodos();
         Task<TEntity> ObterPorId(Guid id);
-        Task<IEnumerable<TEntity>> buscarAsync(Expression<Func<TEntity, bool>> predicate);
+        Task<IEnumerable<TEntity>> Buscar(Expression<Func<TEntity, bool>> predicate);
         Task<int> SaveChanges();
 
     }

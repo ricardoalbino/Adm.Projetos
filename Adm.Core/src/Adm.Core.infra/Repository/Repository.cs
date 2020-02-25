@@ -15,7 +15,15 @@ namespace RA.School.Proj.Infra.Repository
         protected readonly DataContext _dataContext;
         protected readonly DbSet<TEntity> _dbSet;
 
-        public async Task  adicionarAsync(TEntity entity)
+        //Injeção
+        public Repository(DataContext dataContext)
+        {
+            _dataContext = dataContext;
+            _dbSet = dataContext.Set<TEntity>();
+
+        }
+
+        public async Task adicionarAsync(TEntity entity)
         {
             _dbSet.Add(entity);
             await SaveChanges();
@@ -27,19 +35,19 @@ namespace RA.School.Proj.Infra.Repository
             await SaveChanges();
         }
 
-        public async Task<IEnumerable<TEntity>> buscarAsync(Expression<Func<TEntity, bool>> predicate)
+        public async Task<IEnumerable<TEntity>> Buscar(Expression<Func<TEntity, bool>> predicate)
         {
             return await _dbSet.AsNoTracking().Where(predicate).ToListAsync();
         }
 
         public void Dispose()
         {
-            
+            _dataContext?.Dispose();
         }
 
         public async Task<TEntity> ObterPorId(Guid id)
         {
-            //Ajustar
+            
             return await _dbSet.FirstAsync();
         }
 
@@ -54,9 +62,9 @@ namespace RA.School.Proj.Infra.Repository
             await SaveChanges();
         }
 
-        public Task<int> SaveChanges()
+        public async  Task<int> SaveChanges()
         {
-            throw new NotImplementedException();
+            return await _dataContext.SaveChangesAsync();
         }
     }
 }
